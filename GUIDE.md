@@ -1,0 +1,117 @@
+# GUIDE — how this repo works
+
+Five minutes here saves you hours later. This is the operating manual: what every file is,
+what you may edit, how the pieces connect, and where your own work goes.
+
+## 1. The map
+
+| Path | What it is | Your relationship to it |
+|---|---|---|
+| `README.md` | Front door: quickstart + safety summary | Read once |
+| `GUIDE.md` | This file | Read once, revisit when unsure |
+| `DATA_USE.md` | The data rules you agree to by working here | **Read before touching the data** |
+| `LICENSE` | MIT — covers the **code** only; the data is governed by `DATA_USE.md` | Reference |
+| `data/raw/content_refresh_anonymized.csv` | The one dataset that ships here: 30,000 pseudonymized pages × 44 columns | **Read-only.** Never add files under `data/` |
+| `data/processed/` | Intermediate files the pipeline writes (created on first run; gitignored) | Leave alone — delete freely, it regenerates |
+| `scripts/01…05` + `run_all.py` | The **reference pipeline**: prepare → baseline → train → evaluate → PDF | **Run it and copy from it — don't edit it.** It's the baseline you compare your work against, and reviewers expect to find it unchanged |
+| `scripts/ml_utils.py` | Shared paths, helpers, and the feature lists | The one `scripts/` file you *may* edit — e.g. `MODEL_NUMERIC_FEATURES` to try a feature idea. Note any change in your report |
+| `notebooks/01`, `notebooks/02` | Week 1–2 guided notebooks (Colab-ready) | Run top to bottom; do the "your turn" cells |
+| `outputs/` | Pipeline results. Three **committed examples** show the target shape (`model_report.md`, `refresh_queue_sample.csv`, `charts/`); everything else regenerates | Regenerated files are gitignored — that's intentional (see FAQ) |
+| `work/` | **Yours.** Lane experiments, capstone notebook, report | Everything you build lives here — start with `work/README.md` |
+| `docs/data-dictionary.md` | All 44 columns: meaning, scale, gotchas | Keep open while you work |
+| `docs/ml-intern-dataset-and-lane-guide.md` | Data safety, the lanes, the capstone workflow | Read in Week 1–2 |
+| `docs/ml-core-foundation-framework.md` | The ML-as-a-system map behind the live sessions | Reference |
+| `docs/intern-free-tooling-guide.md` | The zero-budget tool stack | Reference |
+| `.github/workflows/smoke-test.yml` | CI: re-runs the whole pipeline and fails if any dataset CSV is committed | Keep it green |
+| `requirements.txt` | pandas, numpy, scikit-learn, matplotlib, reportlab | `pip install -r requirements.txt` |
+
+## 2. How the pipeline fits together
+
+```text
+data/raw/content_refresh_anonymized.csv        (30,000 rows × 44 columns)
+      │
+      │  01_prepare_features.py    fill blanks, add engineered columns, define the label
+      ▼
+data/processed/refresh_feature_vector.csv      (52 columns)
+      │
+      │  02_baseline_score.py      transparent hand-rule score + reason codes
+      ▼
+data/processed/baseline_refresh_queue.csv
+      │
+      │  03_train_model.py         3 models, client-holdout split, metrics vs the baseline
+      ▼
+data/processed/model_predictions.csv  +  outputs/model_results.json
+      │
+      │  04_evaluate_and_export.py blend model + baseline → final ranked queue, charts, report
+      ▼
+outputs/refresh_queue.csv, outputs/model_report.md, outputs/charts/
+      │
+      │  05_build_pdf_report.py
+      ▼
+outputs/flyrank_refresh_model_results.pdf
+```
+
+`python scripts/run_all.py` runs all five stages in order (~1 minute).
+
+**The label:** `is_declining_label = (trend_direction == "down")`. Because the label is
+derived from `trend_direction`, neither `trend_direction` nor `trend_pct` may ever be a
+model feature — notebook 02 shows you exactly what happens if you leak them in.
+
+**The split:** `03_train_model.py` holds out ~20% of *clients* (not rows), so no client's
+pages appear in both train and test. When you evaluate your own models, use the same idea.
+
+## 3. Committed vs regenerated
+
+Git deliberately ignores most of what the pipeline writes (`data/processed/`, `outputs/*.json`,
+`outputs/refresh_queue.csv`, the PDF). Only three example outputs are committed so you can see
+the target shape before running anything. If `git status` stays quiet after a pipeline run,
+nothing is wrong — that's the design: **code and reports go in git, data and generated
+artifacts don't.**
+
+## 4. The working rhythm
+
+| When | What you do | Where |
+|---|---|---|
+| Week 1 | Run the pipeline, make your first real discovery | `notebooks/01_first_look_and_discovery.ipynb` |
+| Week 2 | Hand rule vs readable model, leakage lesson | `notebooks/02_your_first_readable_model.ipynb` |
+| Weeks 3+ | Your lane: signal analysis, refresh scoring, clustering, or CTR/engagement | `work/` (copy pipeline pieces in, don't edit `scripts/`) |
+| Capstone | Your `work/` folder **is** the deliverable: code, figures, and `capstone_report.md` | `work/` |
+
+Weekly assignments, live events, and the grading rubric live on the **InternHQ board** —
+this repo is the technical foundation they all build on.
+
+## 5. Build & submit flow
+
+1. Clone this repo, then push it to **your own public GitHub repo** — that's your workspace,
+   your submission, and your portfolio.
+2. Build everything in `work/`. Keep `scripts/` pristine.
+3. Keep CI green: it re-runs the pipeline and **fails if any dataset CSV is committed** —
+   your fork inherits that protection.
+4. Submit your repo URL as instructed on the InternHQ board.
+
+Working in Colab? *File → Save a copy in GitHub* (into your repo) after each session, and
+*File → Save a copy in Drive* so the session doesn't evaporate.
+
+## 6. FAQ — the five questions everyone asks
+
+**Git won't add my results / my CSV.**
+By design — see section 3. Generated artifacts regenerate; datasets never enter git. Your
+findings belong in your report and figures, not in committed data files.
+
+**My numbers differ from the committed report in the last decimal places.**
+Floating-point noise across machines. The headline metrics should reproduce exactly
+(baseline Precision@50 = 0.240, random forest = 0.740); tiny last-digit differences in raw
+score columns are normal.
+
+**"Raw input not found" when running the pipeline.**
+The starter CSV was deleted or moved. Restore it:
+`git checkout -- data/raw/content_refresh_anonymized.csv`
+
+**How do I add or remove a model feature?**
+Edit `MODEL_NUMERIC_FEATURES` / `MODEL_CATEGORICAL_FEATURES` in `scripts/ml_utils.py` and
+re-run — or, for bigger experiments, copy `03_train_model.py` into `work/` and modify the
+copy. Check `docs/data-dictionary.md` first so you don't leak the label.
+
+**Can I put the mentor-provided warehouse release in this repo?**
+No. It stays outside git entirely (CI fails any committed CSV anyway). Work with it locally
+and commit only code, aggregates, and write-ups — see `DATA_USE.md`.
