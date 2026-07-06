@@ -84,10 +84,14 @@ this repo is the technical foundation they all build on.
 
 1. Clone this repo, then push it to **your own public GitHub repo** — that's your workspace,
    your submission, and your portfolio.
-2. Build everything in `work/`. Keep `scripts/` pristine.
-3. Keep CI green: it re-runs the pipeline and **fails if any dataset CSV is committed** —
+2. Share your repo URL as part of **Assignment 1** on the InternHQ board. That's the only thing
+   you ever hand over during the track — nothing gets uploaded to the platform.
+3. Build everything in `work/`. Keep `scripts/` pristine.
+4. Keep CI green: it re-runs the pipeline and **fails if any dataset CSV is committed** —
    your fork inherits that protection.
-4. Submit your repo URL as instructed on the InternHQ board.
+5. Review happens **once, at the end of the track**: after your capstone we go through every
+   assignment and the capstone in one pass and send you feedback. You revise, we re-check —
+   there are no weekly submissions in between.
 
 Working in Colab? *File → Save a copy in GitHub* (into your repo) after each session, and
 *File → Save a copy in Drive* so the session doesn't evaporate.

@@ -3,8 +3,9 @@
 **Applied Search Intelligence: Google Search Ranking & Discoverability**
 
 This is the starting point for the FlyRank ML Internship. You **clone it**, build your work in
-**your own public repo**, and submit that repo URL — it's your workspace, your submission, and your
-portfolio all at once.
+**your own public repo**, and share that repo URL with Assignment 1 — it's your workspace, your
+submission, and your portfolio all at once. Everything you build stays there; we review it all
+in one pass at the end of the track.
 
 Everything here runs on a small **anonymized** slice of real FlyRank search data. No credentials,
 no private client data, no setup headaches.
