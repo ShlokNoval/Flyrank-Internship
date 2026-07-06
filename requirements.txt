@@ -3,3 +3,5 @@ numpy
 scikit-learn
 matplotlib
 reportlab
+duckdb
+huggingface_hub

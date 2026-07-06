@@ -16,6 +16,7 @@ what you may edit, how the pieces connect, and where your own work goes.
 | `scripts/01…05` + `run_all.py` | The **reference pipeline**: prepare → baseline → train → evaluate → PDF | **Run it and copy from it — don't edit it.** It's the baseline you compare your work against, and reviewers expect to find it unchanged |
 | `scripts/ml_utils.py` | Shared paths, helpers, and the feature lists | The one `scripts/` file you *may* edit — e.g. `MODEL_NUMERIC_FEATURES` to try a feature idea. Note any change in your report |
 | `notebooks/01`, `notebooks/02` | Week 1–2 guided notebooks (Colab-ready) | Run top to bottom; do the "your turn" cells |
+| `notebooks/03` | Weeks 3+: the **full warehouse release** via DuckDB + Hugging Face | The workflow your lane and capstone run on — aggregate in SQL, model in sklearn |
 | `outputs/` | Pipeline results. Three **committed examples** show the target shape (`model_report.md`, `refresh_queue_sample.csv`, `charts/`); everything else regenerates | Regenerated files are gitignored — that's intentional (see FAQ) |
 | `work/` | **Yours.** Lane experiments, capstone notebook, report | Everything you build lives here — start with `work/README.md` |
 | `docs/data-dictionary.md` | All 44 columns: meaning, scale, gotchas | Keep open while you work |
@@ -74,7 +75,7 @@ artifacts don't.**
 |---|---|---|
 | Week 1 | Run the pipeline, make your first real discovery | `notebooks/01_first_look_and_discovery.ipynb` |
 | Week 2 | Hand rule vs readable model, leakage lesson | `notebooks/02_your_first_readable_model.ipynb` |
-| Weeks 3+ | Your lane: signal analysis, refresh scoring, clustering, or CTR/engagement | `work/` (copy pipeline pieces in, don't edit `scripts/`) |
+| Weeks 3+ | Learn the full-release workflow (DuckDB over ~79M hosted rows), then your lane | `notebooks/03_working_with_the_full_release.ipynb`, then `work/` (copy pipeline pieces in, don't edit `scripts/`) |
 | Capstone | Your `work/` folder **is** the deliverable: code, figures, and `capstone_report.md` | `work/` |
 
 Weekly assignments, live events, and the grading rubric live on the **InternHQ board** —

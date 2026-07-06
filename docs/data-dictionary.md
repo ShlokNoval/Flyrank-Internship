@@ -107,3 +107,38 @@ Keep this file open while you work.
 
 Which of the 52 columns the models actually use is defined in one place:
 `MODEL_NUMERIC_FEATURES` and `MODEL_CATEGORICAL_FEATURES` in `scripts/ml_utils.py`.
+
+---
+
+# The full warehouse release (weeks 3+)
+
+The starter CSV above is a 30k-row teaching slice. Lane and capstone work run on the **full
+pseudonymized warehouse release** — ~79M rows of daily search performance hosted as Parquet on
+Hugging Face (gated; notebook 03 walks through access and the DuckDB workflow).
+
+## Tables
+
+| Table | Grain | Use it for |
+|---|---|---|
+| `dim_clients` | one row per pseudonymized client | history coverage (`gsc_data_start`, `ga4_data_start`), access profile |
+| `dim_content` | one row per pseudonymized content item | content metadata, keyword context, joins |
+| `fact_content_daily_performance` | report_date × client × content | time-series features, trend labels, forward-window validation. Partitioned by `month=YYYY-MM` |
+| `fact_content_query_90d` | client × content × query hash (fixed 90-day window) | query-mix features: diversity, concentration, rare/anonymized tail |
+
+## The three things to know before modeling it
+
+1. **Unbalanced panel.** Per-client history depth differs (some clients have 17 months, some 3).
+   `dim_clients.gsc_data_start` is the honest per-client start date — always check it before
+   defining a time window, and prefer per-client windows over one global calendar window.
+2. **GSC-only early history.** Rows before a client's `ga4_data_start` have GA4 columns
+   zero-filled with `ga4_data_available = FALSE` — filter on the flag, don't treat zeros as
+   "no engagement".
+3. **The query table is internally complete — and *almost* fact-reconciled.** Per content item,
+   kept rows (≥ 10 impressions) + `rare_impressions_share` + `anonymized_impressions_share`
+   account for exactly 100% of `content_total_impressions_90d`. Against the daily fact summed
+   over the same window, ~98.5% of content items match exactly; the rest are items registered
+   to the platform **mid-window** — the daily fact only accrues history from registration day,
+   while the query table attributes the full window using the current URL map. Treat
+   `content_total_impressions_90d` as the query table's own denominator. Grain guard: the
+   per-content context columns repeat on every row of that content item — `ANY_VALUE()` them,
+   never `SUM()`.

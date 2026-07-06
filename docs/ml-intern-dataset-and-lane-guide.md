@@ -66,7 +66,7 @@ The internship data is the warehouse-shaped release below, plus the small runnab
 
 Warehouse-shaped release (mentor-provided):
 
-- Release: `flyrank_pseudonymized_warehouse_release_v20260623` (request from your mentor)
+- Release: `flyrank_pseudonymized_warehouse_release_v20260703` (request from your mentor)
 - Source: `central_data_warehouse`
 - Export date: `2026-06-23`
 - Freshness lag: 3 days, so daily/time-series facts stop at `2026-06-20`
@@ -95,14 +95,15 @@ The warehouse-shaped release gives you dimensional and fact tables; you define y
 Approved warehouse-shaped release (mentor-provided):
 
 ```text
-flyrank_pseudonymized_warehouse_release_v20260623/   (request from your mentor)
+flyrank_pseudonymized_warehouse_release_v20260703/   (request from your mentor)
 ```
 
 | Table | Rows | Grain | Main use |
 |---|---:|---|---|
-| `dim_clients` | 98 | one row per pseudonymized client | grouping and client-level checks |
-| `dim_content` | 509,912 | one row per pseudonymized content item | content metadata and joins |
-| `fact_content_daily_performance` | 69,200,151 | daily x client x content | time-series features, trend labels, forward-window validation |
+| `dim_clients` | 104 | one row per pseudonymized client | grouping, client-level checks, per-client history coverage (`gsc_data_start`, `ga4_data_start`) |
+| `dim_content` | 519,606 | one row per pseudonymized content item | content metadata and joins |
+| `fact_content_daily_performance` | 78,835,655 | daily x client x content | time-series features, trend labels, forward-window validation |
+| `fact_content_query_90d` | 2,414,248 | client x content x query hash (fixed 90-day window) | query-mix features: diversity, concentration, rare/anonymized tail |
 
 Use the warehouse-shaped data when you want the most freedom. You must then write a stronger data contract because you control the joins, windows, labels, and leakage risks.
 
@@ -110,26 +111,28 @@ Fixed snapshot source coverage:
 
 | Source object | Source rows | Clients | Content items | What it contributes |
 |---|---:|---:|---:|---|
-| `all_content_data` | 510,312 | 84 | 509,912 | Primary content dimension source |
-| `daily_content_performance` | 69,200,151 | 70 | 420,454 | Primary daily fact source, excluding the freshest 3 days |
+| `all_content_data` | 520,006 | 84 | 519,606 | Primary content dimension source |
+| `daily_content_performance_v2` | 78,835,655 | 70 | 427,292 | Primary daily fact source (v2 full history), excluding the freshest 3 days |
 
 Fixed snapshot date windows:
 
 | Source/date field | Min date | Max date |
 |---|---|---|
-| `all_content_data.content_created_at` | 2024-10-16 | 2026-06-23 |
-| `daily_content_performance.report_date` | 2025-10-13 | 2026-06-20 |
+| `all_content_data.content_created_at` | 2024-10-16 | 2026-07-06 |
+| `daily_content_performance_v2.report_date` | 2025-01-27 | 2026-06-30 |
+
+History is an **unbalanced panel**: v2 extends per-client history to everything available (2025-01-27 onward; 9 of 70 clients have 12+ months, enough for seasonality work). Rows before a client's GA4 start are GSC-only with `ga4_data_available = FALSE` — check `dim_clients.gsc_data_start` / `ga4_data_start` before defining any time window.
 
 Daily metric density inside the fixed snapshot:
 
 | Metric presence | Rows |
 |---|---:|
-| daily fact rows | 69,200,151 |
-| rows with GSC impressions | 21,739,655 |
-| rows with GSC clicks | 2,355,200 |
-| rows with GA4 sessions | 2,560,888 |
-| rows with AI sessions | 28,712 |
-| rows with scroll events | 561,479 |
+| daily fact rows | 78,835,655 |
+| rows with GSC impressions | 28,970,051 |
+| rows with GSC clicks | 3,112,607 |
+| rows with GA4 sessions | 2,778,564 |
+| rows with AI sessions | 30,177 |
+| rows with scroll events | 600,821 |
 
 Interpretation:
 
