@@ -133,6 +133,14 @@ Hugging Face (gated; notebook 03 walks through access and the DuckDB workflow).
 2. **GSC-only early history.** Rows before a client's `ga4_data_start` have GA4 columns
    zero-filled with `ga4_data_available = FALSE` — filter on the flag, don't treat zeros as
    "no engagement".
+> ⚠️ **Leakage watch — the query table's window overlaps recent months.**
+> `fact_content_query_90d` covers a fixed 90-day window (the most recent ~3 months of the
+> snapshot). If your capstone predicts something about *those* months (e.g. "will this page
+> decline next month?"), the `impressions_90d` / `*_last30` columns **contain your label period**
+> — using them is leakage. Only the `*_prev30` columns are safe as features for a label defined
+> on the final month. Always line up your feature window and label window against this table's
+> window before you use it.
+
 3. **The query table is internally complete — and *almost* fact-reconciled.** Per content item,
    kept rows (≥ 10 impressions) + `rare_impressions_share` + `anonymized_impressions_share`
    account for exactly 100% of `content_total_impressions_90d`. Against the daily fact summed

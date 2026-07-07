@@ -24,7 +24,7 @@ what you may edit, how the pieces connect, and where your own work goes.
 | `docs/ml-core-foundation-framework.md` | The ML-as-a-system map behind the live sessions | Reference |
 | `docs/intern-free-tooling-guide.md` | The zero-budget tool stack | Reference |
 | `.github/workflows/smoke-test.yml` | CI: re-runs the whole pipeline and fails if any dataset CSV is committed | Keep it green |
-| `requirements.txt` | pandas, numpy, scikit-learn, matplotlib, reportlab | `pip install -r requirements.txt` |
+| `requirements.txt` | pandas, numpy, scikit-learn, matplotlib, reportlab, duckdb, huggingface_hub | `pip install -r requirements.txt` |
 
 ## 2. How the pipeline fits together
 
@@ -87,7 +87,12 @@ this repo is the technical foundation they all build on.
    your submission, and your portfolio.
 2. Share your repo URL as part of **Assignment 1** on the InternHQ board. That's the only thing
    you ever hand over during the track — nothing gets uploaded to the platform.
-3. Build everything in `work/`. Keep `scripts/` pristine.
+3. Build everything in `work/`. Keep `scripts/` pristine. **Every new notebook you create
+   (weeks 3+) should start with one setup cell:**
+   ```python
+   %pip install -q duckdb huggingface_hub pandas scikit-learn matplotlib
+   ```
+   A fresh Colab/Jupyter kernel doesn't have `duckdb` until you install it in the notebook.
 4. Keep CI green: it re-runs the pipeline and **fails if any dataset CSV is committed** —
    your fork inherits that protection.
 5. Review happens **once, at the end of the track**: after your capstone we go through every
