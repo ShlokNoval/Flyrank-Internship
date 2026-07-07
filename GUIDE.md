@@ -78,6 +78,10 @@ artifacts don't.**
 | Weeks 3+ | Learn the full-release workflow (DuckDB over ~79M hosted rows), then your lane | `notebooks/03_working_with_the_full_release.ipynb`, then `work/` (copy pipeline pieces in, don't edit `scripts/`) |
 | Capstone | Your `work/` folder **is** the deliverable: code, figures, and `capstone_report.md` | `work/` |
 
+**Do I make my own notebook?** Weeks 1-3: no — run the three provided ones and do the "your
+turn" cells (save copies to your repo). Capstone and lane work: **yes** — your own notebooks in
+`work/notebooks/`, starting with the setup cell from section 5.
+
 Weekly assignments, live events, and the grading rubric live on the **InternHQ board** —
 this repo is the technical foundation they all build on.
 
@@ -108,10 +112,13 @@ Working in Colab? *File → Save a copy in GitHub* (into your repo) after each s
 By design — see section 3. Generated artifacts regenerate; datasets never enter git. Your
 findings belong in your report and figures, not in committed data files.
 
-**My numbers differ from the committed report in the last decimal places.**
-Floating-point noise across machines. The headline metrics should reproduce exactly
-(baseline Precision@50 = 0.240, random forest = 0.740); tiny last-digit differences in raw
-score columns are normal.
+**My numbers differ from the committed report.**
+The baseline (Precision@50 = 0.240) reproduces exactly. The random-forest number is
+**library-version sensitive**: 0.740 on the stack we ship, but roughly 0.68–0.74 across
+older numpy/scikit-learn combinations — the picks at the 50th-place boundary shift.
+The stable claim is the **~3x lift over the baseline**, not the third decimal. If you see
+0.68-ish, your environment resolved older libraries; `pip install -r requirements.txt` in a
+fresh venv gets you the shipped stack.
 
 **"Raw input not found" when running the pipeline.**
 The starter CSV was deleted or moved. Restore it:

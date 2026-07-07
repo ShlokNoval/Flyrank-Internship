@@ -73,8 +73,9 @@ That runs the whole pipeline on the bundled sample and writes results to `output
 ```
 
 On the bundled sample, the learned model clearly beats the hand-written rule at picking the right
-pages to review first (**Precision@50 ≈ 0.24 → 0.74**). The notebooks compute these numbers live, so
-they always reflect the current data.
+pages to review first (**Precision@50 ≈ 0.24 → 0.74**; the model number can land 0.68–0.74
+depending on library versions — the ~3x lift is the point). The notebooks compute these numbers
+live, so they always reflect the current data and environment.
 
 **Teaching point:** the model is the capstone, but the *workflow* is the lesson —
 `problem framing → data cleaning → baseline → first model → evaluation → explainable recommendation`.
@@ -96,8 +97,15 @@ The `.gitignore` blocks datasets by default, and grading checks that no dataset 
 
 ## Assignments & schedule
 
-Weekly assignments, live events, and the capstone rubric live on the **InternHQ board** (your mentor
-will point you there). This repo is the shared technical foundation they all build on.
+Weekly assignments, live events, and the capstone rubric live on the **InternHQ board** at
+`internhq.flyrank.ai` (your enrollment email has your access). This repo is the shared technical
+foundation they all build on.
+
+**First time with GitHub?** You need exactly four things:
+1. A free account at github.com → **New repository** → public, any name.
+2. In Colab: *File → Save a copy in GitHub* → pick that repo (Colab handles auth).
+3. That's your submission repo — share its URL with Assignment 1.
+4. Working locally instead? `git add -A && git commit -m "week 1" && git push`.
 
 ---
 
