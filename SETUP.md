@@ -22,11 +22,12 @@ breaks it — read the ⚠️ lines even if you skip everything else.
    leak-guard that keeps datasets out of git — all of it travels with you.
    ⚠️ Don't create an empty repo by hand instead — an empty repo has no branch, and Colab's
    *Save in GitHub* **silently does nothing** against it (the dialog just closes).
-3. **Open Notebook 01** with the Colab badge — from **your copy's** README (same notebook,
-   but then saving lands in the right place by default). It runs in your browser; nothing to
-   install.
+3. **Open Notebook 01** with the Colab badge in the README. It runs in your browser; nothing
+   to install. (The badge opens the shared read-only notebook no matter whose README you
+   clicked it in — your work becomes yours at the save step below.)
 4. **Save your work**: *File → Save a copy in GitHub* → authorize Colab (pick the **same
-   account** that owns your copy) → choose your repo, keep the suggested
+   account** that owns your copy) → in the Repository dropdown **switch to YOUR copy** (it
+   defaults to the shared repo, which you can't write to) → keep the suggested
    `notebooks/...` path, branch `main` → OK. Colab opens the commit on GitHub — that's your
    proof it worked.
    ⚠️ Colab can only see repos of the GitHub account that authorized it. If your repo
