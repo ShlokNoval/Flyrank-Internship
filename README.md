@@ -102,14 +102,13 @@ Weekly assignments, live events, and the capstone rubric live on the **InternHQ 
 `internhq.flyrank.ai` (your enrollment email has your access). This repo is the shared technical
 foundation they all build on.
 
-**First time with GitHub?** You need exactly four things:
-1. A free account at github.com → **New repository** → public, any name — and **tick
-   "Add a README file"**. This matters: a completely empty repo has no branch, and Colab's
-   *Save in GitHub* silently does nothing against it.
-2. In Colab: *File → Save a copy in GitHub* → pick that repo, branch `main` (Colab handles auth).
-3. That's your submission repo — share its **github.com/you/your-repo** URL with Assignment 1
+**First time with GitHub?** You need exactly four things (full walkthrough: [SETUP.md](SETUP.md)):
+1. A free account at github.com.
+2. Your own copy of this repo: **Use this template → Create a new repository** → public.
+   (One click — brings the notebooks, `work/`, and the CI leak-guard with it.)
+3. In Colab: *File → Save a copy in GitHub* → pick your copy, branch `main` (Colab handles auth).
+4. That's your submission repo — share its **github.com/you/your-repo** URL with Assignment 1
    (never a colab.research.google.com or drive.google.com link).
-4. Working locally instead? `git add -A && git commit -m "week 1" && git push`.
 
 ---
 

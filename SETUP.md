@@ -15,21 +15,26 @@ breaks it — read the ⚠️ lines even if you skip everything else.
 ## Moment 1 — GitHub + Colab (before Assignment 1)
 
 1. **Create a GitHub account** (free) at [github.com/join](https://github.com/join) — skip if you have one.
-2. **Create your submission repo**: github.com → **New repository** → public → any name →
-   **tick "Add a README file"** → Create.
-   ⚠️ *The README tick matters.* A completely empty repo has no branch, and Colab's
-   *Save in GitHub* **silently does nothing** against it — the dialog just closes.
-3. **Open Notebook 01** with the Colab badge in this repo's README. It runs in your browser;
-   nothing to install.
-4. **Save your copy**: *File → Save a copy in GitHub* → authorize Colab (pick the **same
-   account** that owns your repo) → choose your repo, branch `main` → OK. Colab opens the
-   commit on GitHub — that's your proof it worked.
+2. **Make your own copy of this repo** — one click, no git needed: on
+   [the starter repo page](https://github.com/flyrank-bih/flyrank-ml-internship-starter), press
+   **Use this template → Create a new repository** → public → any name → Create.
+   You now own a full copy: the notebooks, the pipeline, your `work/` folder, and the CI
+   leak-guard that keeps datasets out of git — all of it travels with you.
+   ⚠️ Don't create an empty repo by hand instead — an empty repo has no branch, and Colab's
+   *Save in GitHub* **silently does nothing** against it (the dialog just closes).
+3. **Open Notebook 01** with the Colab badge — from **your copy's** README (same notebook,
+   but then saving lands in the right place by default). It runs in your browser; nothing to
+   install.
+4. **Save your work**: *File → Save a copy in GitHub* → authorize Colab (pick the **same
+   account** that owns your copy) → choose your repo, keep the suggested
+   `notebooks/...` path, branch `main` → OK. Colab opens the commit on GitHub — that's your
+   proof it worked.
    ⚠️ Colab can only see repos of the GitHub account that authorized it. If your repo
    "doesn't appear," you authorized a different account.
 5. **Also**: *File → Save a copy in Drive* — a personal backup so a closed tab never eats an
    hour of work. Never submitted, just yours.
 
-**✅ Done when:** the notebook shows up in your repo on github.com. That
+**✅ Done when:** the executed notebook shows up in your copy on github.com. That
 **`github.com/you/your-repo`** URL is your submission for Assignment 1 — never a
 `colab.research.google.com` or `drive.google.com` link.
 

@@ -88,8 +88,10 @@ this repo is the technical foundation they all build on.
 
 ## 5. Build & submit flow
 
-1. Clone this repo, then push it to **your own public GitHub repo** — that's your workspace,
-   your submission, and your portfolio.
+1. Make your own copy: **Use this template → Create a new repository** (public) on the repo
+   page — that copy is your workspace, your submission, and your portfolio. (Prefer the
+   terminal? `git clone` this repo and push it to an **empty** repo you own — no README tick,
+   or the push is rejected.)
 2. Share your repo URL as part of **Assignment 1** on the InternHQ board. That's the only thing
    you ever hand over during the track — nothing gets uploaded to the platform.
 3. Build everything in `work/`. Keep `scripts/` pristine. **Every new notebook you create
