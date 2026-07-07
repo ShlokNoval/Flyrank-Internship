@@ -25,6 +25,10 @@ The fastest path is Google Colab (one click, zero install). Open Notebook 1 and 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/notebooks/02_your_first_readable_model.ipynb)
  **Week 2 — The model is just a rule you can read**
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/notebooks/03_working_with_the_full_release.ipynb)
+ **Weeks 3+ — The full release (~79M rows) via DuckDB, no download needed** — hosted at
+ [`FlyRank/internship-warehouse`](https://huggingface.co/datasets/FlyRank/internship-warehouse) (gated: request access + accept the data-use terms, approval is instant)
+
 ### Prefer local?
 
 ```bash

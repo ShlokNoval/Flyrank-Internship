@@ -66,7 +66,7 @@ The internship data is the warehouse-shaped release below, plus the small runnab
 
 Warehouse-shaped release (mentor-provided):
 
-- Release: `flyrank_pseudonymized_warehouse_release_v20260703` (request from your mentor)
+- Release: [`FlyRank/internship-warehouse`](https://huggingface.co/datasets/FlyRank/internship-warehouse) on Hugging Face (gated — request access, accept the data-use terms, instant approval; notebook 03 shows the DuckDB workflow). Build `flyrank_pseudonymized_warehouse_release_v20260703`.
 - Source: `central_data_warehouse`
 - Export date: `2026-06-23`
 - Freshness lag: 3 days, so daily/time-series facts stop at `2026-06-20`
@@ -92,10 +92,13 @@ For student work, cite only the approved release counts and date windows below.
 
 The warehouse-shaped release gives you dimensional and fact tables; you define your own joins, windows, labels, and leakage checks.
 
-Approved warehouse-shaped release (mentor-provided):
+Approved warehouse-shaped release — hosted at
+[`FlyRank/internship-warehouse`](https://huggingface.co/datasets/FlyRank/internship-warehouse)
+(gated; Parquet; see notebook 03). Lane example cuts:
+[`FlyRank/internship-lanes`](https://huggingface.co/datasets/FlyRank/internship-lanes). Build id:
 
 ```text
-flyrank_pseudonymized_warehouse_release_v20260703/   (request from your mentor)
+flyrank_pseudonymized_warehouse_release_v20260703
 ```
 
 | Table | Rows | Grain | Main use |
