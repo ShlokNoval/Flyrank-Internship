@@ -9,6 +9,7 @@ what you may edit, how the pieces connect, and where your own work goes.
 |---|---|---|
 | `README.md` | Front door: quickstart + safety summary | Read once |
 | `GUIDE.md` | This file | Read once, revisit when unsure |
+| `SETUP.md` | GitHub + Colab (Week 1) and Hugging Face access (Week 3) — with the silent pitfalls | Follow it at those two moments |
 | `DATA_USE.md` | The data rules you agree to by working here | **Read before touching the data** |
 | `LICENSE` | MIT — covers the **code** only; the data is governed by `DATA_USE.md` | Reference |
 | `data/raw/content_refresh_anonymized.csv` | The one dataset that ships here: 30,000 pseudonymized pages × 44 columns | **Read-only.** Never add files under `data/` |
