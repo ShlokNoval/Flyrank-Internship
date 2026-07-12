@@ -50,6 +50,11 @@ result, two more clicks: **File → Open notebook → GitHub tab** → paste
 `github.com/you/your-repo` → pick the notebook. Save is pre-filled exactly the same way, and
 Colab's **Recent** tab remembers it from then on.
 
+**Seeing an OLD version of your notebook?** Don't panic — your work is safe. Colab sometimes
+shows a cached copy; the badges carry a cache-buster to prevent this, but if it ever happens
+anyway: check your repo on github.com first (your saved version is there), then reopen via
+the badge or **File → Open notebook → GitHub tab**.
+
 ---
 
 ## Moment 2 — Hugging Face data access (before Week 3)
