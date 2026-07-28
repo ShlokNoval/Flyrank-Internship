@@ -9,3 +9,8 @@ Ground rules for this repo:
 - One task per conversation; finish and verify before starting the next.
 - Never commit datasets (CI blocks them). Never print private data, client names, or raw queries.
 - The intern validates your output — end each task by running the notebook top to bottom.
+
+## Style Note
+Fonts: Inter for clean, highly readable professional typography.
+Palette: Royal Blue (#2563EB), Slate Text (#1E293B), Off-White (#F8FAFC), Sky Accent (#38BDF8).
+Mood: Professional, precise, and tech-forward, keeping the focus entirely on the work.
