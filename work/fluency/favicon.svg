@@ -1,0 +1,10 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Near-white background with rounded corners -->
+  <rect width="200" height="200" fill="#FAFAFA" rx="40"/>
+  
+  <!-- "SN" Monogram in near-black -->
+  <text x="100" y="115" font-family="Georgia, 'Playfair Display', serif" font-size="90" font-weight="bold" fill="#1A1A1A" text-anchor="middle" alignment-baseline="middle" letter-spacing="-4">SN</text>
+  
+  <!-- Professional Blue Accent Dot -->
+  <circle cx="150" cy="145" r="12" fill="#2563EB" />
+</svg>
