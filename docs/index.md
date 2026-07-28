@@ -20,10 +20,10 @@ SEO traffic decays naturally as competitors publish new content and search inten
 ## Results
 The Random Forest model reliably separates stable content from declining content. 
 
-![ROC Curve](../outputs/charts/roc_curve.png)
+![ROC Curve](charts/roc_curve.png)
 *Figure 1: Receiver Operating Characteristic (ROC) demonstrating generalizable predictive power on unseen clients.*
 
-![SHAP Summary](../outputs/charts/shap_summary.png)
+![SHAP Summary](charts/shap_summary.png)
 *Figure 2: SHAP Summary plot. Pages with high rare/anonymized query share are more robust, while pages relying heavily on a single visible query (high top_query_share) are extremely vulnerable to decline.*
 
 ## Limitations
@@ -34,12 +34,18 @@ The model's outputs feed directly into an action playbook. Pages with `imp_prev3
 
 **Top 5 At-Risk Pages (Action Engine Output):**
 ```csv
-content_hash_id,client_hash_id,imp_prev30,decline_probability,action,reason
-content_82403fd8bc2c2fb3,client_73cda7b4e4f265ea,11472.0,0.7808858013927528,Refresh Content / Review Target Queries,Losing CTR/Visibility
-content_926821c859dc9d57,client_73cda7b4e4f265ea,18125.0,0.7779496442462961,Refresh Content / Review Target Queries,Losing CTR/Visibility
-content_ed9c7fe5a778c796,client_73cda7b4e4f265ea,17945.0,0.7720894988821027,Refresh Content / Review Target Queries,Losing CTR/Visibility
-content_6026175ff0e5d224,client_62f4a7e64f5e0096,7017.0,0.7689196985107365,Refresh Content / Review Target Queries,Losing CTR/Visibility
-content_bb29c8273a47e3be,client_73cda7b4e4f265ea,3630.0,0.7660214501228153,Refresh Content / Review Target Queries,Falling ranks
+content_hash_id,client_hash_id,imp_prev30,decline_probability,action,reason
+
+content_82403fd8bc2c2fb3,client_73cda7b4e4f265ea,11472.0,0.7808858013927528,Refresh Content / Review Target Queries,Losing CTR/Visibility
+
+content_926821c859dc9d57,client_73cda7b4e4f265ea,18125.0,0.7779496442462961,Refresh Content / Review Target Queries,Losing CTR/Visibility
+
+content_ed9c7fe5a778c796,client_73cda7b4e4f265ea,17945.0,0.7720894988821027,Refresh Content / Review Target Queries,Losing CTR/Visibility
+
+content_6026175ff0e5d224,client_62f4a7e64f5e0096,7017.0,0.7689196985107365,Refresh Content / Review Target Queries,Losing CTR/Visibility
+
+content_bb29c8273a47e3be,client_73cda7b4e4f265ea,3630.0,0.7660214501228153,Refresh Content / Review Target Queries,Falling ranks
+
 
 ```
 
