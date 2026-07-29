@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Prompt Ladder - Shlok Noval</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="assets/logo.svg" alt="SN Logo" class="logo">
+                <h1>Shlok Noval</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="capstone.html">Capstone</a>
+                <a href="prompt-ladder.html">Prompt Ladder</a>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <h1>The Prompt Ladder: From Lazy to Engineered</h1>
+                <p><strong>Track:</strong> General AI Fluency (Week 2)<br>
+                <strong>Context:</strong> Machine Learning & Data Science Internship (Flyrank)</p>
+                <hr>
+
+                <h2>Baseline: The "Lazy" Prompt</h2>
+                <p><strong>Prompt:</strong><br>
+                <em>"Write python code to analyze customer churn data."</em></p>
+
+                <p><strong>Simulated Output Excerpt:</strong></p>
+                <pre><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+# Load generic data
+df = pd.read_csv('churn.csv')
+X = df.drop('churn', axis=1)
+y = df['churn']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+print(f"Accuracy: {model.score(X_test, y_test)}")</code></pre>
+
+                <p><strong>Notes:</strong></p>
+                <ul>
+                    <li><strong>What changed:</strong> N/A (Baseline).</li>
+                    <li><strong>What actually improved in the output:</strong> N/A.</li>
+                    <li><strong>What still failed:</strong> The output assumes a completely generic dataset format, uses basic methods without context, and just dumps an accuracy score without providing any real business insights.</li>
+                    <li><strong>What to try next:</strong> Add a clearer goal about what kind of insights we need from the data.</li>
+                </ul>
+                <hr>
+
+                <h2>Version 1: Clearer Goal</h2>
+                <p><strong>Prompt:</strong><br>
+                <em>"Write python code to analyze customer churn data. <strong>Focus specifically on finding which features are most important in predicting whether a high-value customer will leave.</strong>"</em></p>
+
+                <p><strong>Simulated Output Excerpt:</strong></p>
+                <pre><code># ... [model training code] ...
+importances = model.feature_importances_
+for feature, imp in zip(X.columns, importances):
+    print(f"{feature}: {imp}")
+# (Outputs meaningless column names like Feature_1, Feature_2 since it has no context)</code></pre>
+
+                <p><strong>Notes:</strong></p>
+                <ul>
+                    <li><strong>What changed:</strong> Added a clearer goal (focusing on feature importance for high-value customers).</li>
+                    <li><strong>What actually improved in the output:</strong> The AI stopped just optimizing for raw accuracy and actually wrote code to extract and print feature importances. It shifted from a "predictive" task to an "explanatory" task.</li>
+                    <li><strong>What still failed:</strong> The script generated dummy column names (<code>Feature_1</code>, <code>Feature_2</code>) that make no sense for our actual SaaS business. It requires heavy editing to map to my real database.</li>
+                    <li><strong>What to try next:</strong> Provide real context about the dataset schema.</li>
+                </ul>
+                <hr>
+
+                <h2>Version 2: Real Context</h2>
+                <p><strong>Prompt:</strong><br>
+                <em>"Write python code to analyze customer churn data <strong>for our B2B SaaS platform. The dataset has columns: <code>mrr</code>, <code>login_frequency</code>, <code>support_tickets</code>, <code>days_since_last_active</code>, and <code>churned</code>.</strong> Focus specifically on finding which features are most important in predicting whether a high-value customer will leave."</em></p>
+
+                <p><strong>Simulated Output Excerpt:</strong></p>
+                <pre><code># Filter for high value customers (MRR &gt; 1000)
+high_value_df = df[df['mrr'] &gt; 1000]
+X = high_value_df[['login_frequency', 'support_tickets', 'days_since_last_active']]
+# ... [training code] ...
+print("Feature Importances:")
+print(f"Days since active: 0.45\nSupport tickets: 0.35\nLogin frequency: 0.20")</code></pre>
+
+                <p><strong>Notes:</strong></p>
+                <ul>
+                    <li><strong>What changed:</strong> Added real context (business type and dataset schema).</li>
+                    <li><strong>What actually improved in the output:</strong> The code is now instantly copy-pasteable. It successfully utilized the <code>mrr</code> column to logically define a "high-value customer" and applied my actual database columns directly into the model inputs.</li>
+                    <li><strong>What still failed:</strong> The results are printed to the terminal as raw text. If I need to show this to non-technical stakeholders or product managers, command-line printouts are practically useless.</li>
+                    <li><strong>What to try next:</strong> Specify an output format.</li>
+                </ul>
+                <hr>
+
+                <h2>Version 3: Output Format (The "Made it Worse" Moment)</h2>
+                <p><strong>Prompt:</strong><br>
+                <em>"Write python code to analyze customer churn data for our B2B SaaS platform. The dataset has columns: <code>mrr</code>, <code>login_frequency</code>, <code>support_tickets</code>, <code>days_since_last_active</code>, and <code>churned</code>. Focus specifically on finding which features are most important in predicting whether a high-value customer will leave. <strong>Output the results as a complex interactive D3.js dashboard.</strong>"</em></p>
+
+                <p><strong>Simulated Output Excerpt:</strong></p>
+                <pre><code>from flask import Flask, render_template, jsonify
+# ... 100 lines of complex JSON serialization ...
+@app.route('/data')
+def get_data():
+    return jsonify(feature_importances)
+# ... HTML template strings with embedded raw D3.js scripts ...</code></pre>
+
+                <p><strong>Notes:</strong></p>
+                <ul>
+                    <li><strong>What changed:</strong> Specified an output format (complex interactive D3.js dashboard).</li>
+                    <li><strong>What actually improved in the output:</strong> It technically followed instructions and attempted to create visual data representations.</li>
+                    <li><strong>What still failed:</strong> This made things <em>significantly worse</em>. The code ballooned from 30 lines to over 200 lines, mixed backend Flask routes with frontend Javascript, and failed to run entirely because it required a specific folder structure for HTML templates. The core ML analysis was buried under boilerplate.</li>
+                    <li><strong>What to try next:</strong> Pivot the output format to something more practical and add constraints.</li>
+                </ul>
+                <hr>
+
+                <h2>Version 4: Constraints</h2>
+                <p><strong>Prompt:</strong><br>
+                <em>"Write python code to analyze customer churn data for our B2B SaaS platform. The dataset has columns: <code>mrr</code>, <code>login_frequency</code>, <code>support_tickets</code>, <code>days_since_last_active</code>, and <code>churned</code>. Focus specifically on finding which features are most important in predicting whether a high-value customer will leave. <strong>Do not build web apps or use HTML/JS. Use only pandas, scikit-learn, and matplotlib/seaborn to output a single cleanly styled PNG chart.</strong>"</em></p>
+
+                <p><strong>Simulated Output Excerpt:</strong></p>
+                <pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+# ... [model code] ...
+plt.figure(figsize=(10, 6))
+sns.barplot(x=importances, y=X.columns, palette='viridis')
+plt.title('Top Churn Predictors for High-Value Clients')
+plt.savefig('churn_feature_importance.png')</code></pre>
+
+                <p><strong>Notes:</strong></p>
+                <ul>
+                    <li><strong>What changed:</strong> Added constraints (no web apps/JS, only specific python data libraries, single PNG output).</li>
+                    <li><strong>What actually improved in the output:</strong> The web server bloat completely disappeared. The script became hyper-focused, executable in a standard Jupyter notebook environment, and generated exactly the visual asset needed for a presentation.</li>
+                    <li><strong>What still failed:</strong> The chart is correct, but Random Forest feature importances only tell you <em>what</em> is important, not the <em>direction</em> (e.g., do high support tickets increase or decrease churn?). It lacks narrative interpretation.</li>
+                    <li><strong>What to try next:</strong> Add quality criteria / review instructions to explain the findings directionally.</li>
+                </ul>
+                <hr>
+
+                <h2>Version 5: Quality Criteria</h2>
+                <p><strong>Prompt:</strong><br>
+                <em>"Write python code to analyze customer churn data for our B2B SaaS platform. The dataset has columns: <code>mrr</code>, <code>login_frequency</code>, <code>support_tickets</code>, <code>days_since_last_active</code>, and <code>churned</code>. Focus specifically on finding which features are most important in predicting whether a high-value customer will leave. Do not build web apps or use HTML/JS. Use only pandas, scikit-learn, and matplotlib/seaborn to output a single cleanly styled PNG chart. <strong>Finally, include a function that uses SHAP values to explain the directional impact of the top 3 most important features in plain English.</strong>"</em></p>
+
+                <p><strong>Simulated Output Excerpt:</strong></p>
+                <pre><code>import shap
+# ... [training and plotting code] ...
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(X_test)
+# Function analyzes SHAP correlations
+def explain_drivers():
+    print("Business Insight Summary:")
+    print("1. Days Since Last Active: Higher values strongly increase churn probability.")
+    print("2. Support Tickets: High ticket volumes correlate with a moderate increase in churn.")</code></pre>
+
+                <p><strong>Notes:</strong></p>
+                <ul>
+                    <li><strong>What changed:</strong> Added an explicit quality/verification criteria layer (use SHAP values to explain directional impact in plain English).</li>
+                    <li><strong>What actually improved in the output:</strong> The output shifted from "here is a raw chart" to "here is the chart and the actionable business interpretation." The inclusion of SHAP values gave precise, directional insights, bridging the gap between data science and product strategy.</li>
+                    <li><strong>What still failed:</strong> Nothing critical. The script is now robust, context-aware, heavily constrained, and provides instantly actionable business insights.</li>
+                    <li><strong>What to try next:</strong> N/A - this is a complete prompt.</li>
+                </ul>
+                <hr>
+
+                <h2>The Final Reusable Prompt</h2>
+                <p><em>Cleaned up and generalized for any Data Scientist on the track to use when doing feature analysis.</em></p>
+
+                <blockquote>
+                    <p><strong>Act as a Senior Data Scientist for a B2B SaaS company.</strong></p>
+                    <p><strong>Goal</strong>: Write python code to train a model and identify the top features predicting a specific target outcome.</p>
+                    <p><strong>Context</strong>:</p>
+                    <ul>
+                        <li>The dataset schema is: <code>[INSERT YOUR COLUMNS HERE]</code></li>
+                        <li>The target variable to predict is: <code>[INSERT TARGET VARIABLE HERE]</code></li>
+                        <li>Sub-population filter (if any): <code>[e.g., Filter for high MRR customers]</code></li>
+                    </ul>
+                    <p><strong>Constraints</strong>:</p>
+                    <ul>
+                        <li>Use only <code>pandas</code>, <code>scikit-learn</code>, <code>shap</code>, and <code>seaborn</code>.</li>
+                        <li>Do not build web applications or interactive dashboards.</li>
+                        <li>Output the feature importance visualization by saving it as a cleanly styled PNG file.</li>
+                    </ul>
+                    <p><strong>Quality Criteria / Verification</strong>:</p>
+                    <ul>
+                        <li>Ensure the script is a single, self-contained Python file.</li>
+                        <li>Include a function using SHAP values to automatically print a plain-English explanation of how the top 3 driving features <em>directionally</em> impact the target variable.</li>
+                    </ul>
+                </blockquote>
+            </article>
+        </main>
+        
+        <footer>
+            <p>&copy; 2026 Shlok Noval. Built for Flyrank ML Internship.</p>
+        </footer>
+    </div>
+</body>
+</html>

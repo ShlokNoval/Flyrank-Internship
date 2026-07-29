@@ -1,0 +1,97 @@
+:root {
+  --bg-color: #FAFAFA;
+  --text-color: #1A1A1A;
+  --main-color: #2563EB;
+  --accent-color: #F59E0B;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: var(--text-color);
+}
+a {
+  color: var(--main-color);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: var(--accent-color);
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.logo {
+  width: 50px;
+  height: 50px;
+}
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.case-card {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  background: white;
+  transition: box-shadow 0.2s;
+}
+.case-card:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.case-card h2 {
+  margin-top: 0;
+}
+.button {
+  display: inline-block;
+  background-color: var(--main-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.button:hover {
+  background-color: var(--accent-color);
+  color: white;
+  text-decoration: none;
+}
+pre {
+  background: #f1f1f1;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+code {
+  font-family: monospace;
+  background: #f1f1f1;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+}

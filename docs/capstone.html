@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlyRank ML Capstone - Shlok Noval</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="assets/logo.svg" alt="SN Logo" class="logo">
+                <h1>Shlok Noval</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="capstone.html">Capstone</a>
+                <a href="prompt-ladder.html">Prompt Ladder</a>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <h1>FlyRank ML Capstone: Content Refresh & Opportunity Scoring</h1>
+
+                <h2>Abstract</h2>
+                <p>This paper presents a machine learning approach to predict search performance degradation (content decay) before it permanently damages traffic. Using DuckDB over Hugging Face, we aggregated 60 days of FlyRank search data to construct momentum and query-concentration features. We trained a Random Forest model, validating via GroupShuffleSplit to prevent client leakage, achieving an ROC AUC of 0.641. The result is an automated ranking engine that identifies high-value pages at risk of decline, delivering actionable recommendations for content refresh.</p>
+
+                <h2>Introduction / Problem Statement</h2>
+                <p>SEO traffic decays naturally as competitors publish new content and search intent evolves. By the time a drop is obvious in Google Analytics, the traffic is already lost. This work supports the decision of <strong>where to allocate editorial resources</strong>. Instead of guessing which pages need updating, we score every page based on its risk of imminent decline and its historical value, creating a prioritized refresh queue.</p>
+
+                <h2>Data</h2>
+                <ul>
+                    <li><strong>Source</strong>: FlyRank ML Internship Dataset (<code>hf://datasets/FlyRank/internship-warehouse</code>)</li>
+                    <li><strong>Tables</strong>: <code>fact_content_daily_performance_sample</code>, <code>fact_content_query_90d</code></li>
+                    <li><strong>Windows</strong>: We utilized a 60-day retrospective window. Day -60 to -30 served as the feature generation period (momentum, impressions, clicks), and Day -30 to 0 served as the label window.</li>
+                    <li><strong>Exclusions</strong>: Pages with fewer than 100 impressions in the previous 30 days were excluded to remove noise from zero-volume long-tail pages. No PII or client-identifying data was included.</li>
+                </ul>
+
+                <h2>Methodology</h2>
+                <ul>
+                    <li><strong>Target Variable (Label)</strong>: <code>is_declining</code> = True if <code>imp_last30 &lt; 0.8 * imp_prev30</code> (A 20% or greater drop in impressions month-over-month).</li>
+                    <li><strong>Features</strong>: Impressions, clicks, and average position from the prior month; combined with query concentration signals (<code>visible_queries</code>, <code>rare_share</code>, <code>anon_share</code>, <code>top_query_share</code>).</li>
+                    <li><strong>Validation</strong>: Strict <code>GroupShuffleSplit</code> on <code>client_hash_id</code> ensuring the model generalizes to completely unseen clients without data leakage.</li>
+                </ul>
+
+                <h2>Results</h2>
+                <p>The Random Forest model reliably separates stable content from declining content.</p>
+
+                <figure>
+                    <img src="charts/roc_curve.png" alt="ROC Curve">
+                    <figcaption><em>Figure 1: Receiver Operating Characteristic (ROC) demonstrating generalizable predictive power on unseen clients.</em></figcaption>
+                </figure>
+
+                <figure>
+                    <img src="charts/shap_summary.png" alt="SHAP Summary">
+                    <figcaption><em>Figure 2: SHAP Summary plot. Pages with high rare/anonymized query share are more robust, while pages relying heavily on a single visible query (high top_query_share) are extremely vulnerable to decline.</em></figcaption>
+                </figure>
+
+                <h2>Limitations</h2>
+                <p>This model provides <strong>directional decision support</strong>, not causal truth. It cannot predict algorithm updates (core updates), seasonality drops (e.g., holiday traffic), or manual penalties. It solely flags behavioral patterns (momentum loss, rank slipping, heavy query reliance) associated with decay.</p>
+
+                <h2>Ranked Recommendations</h2>
+                <p>The model's outputs feed directly into an action playbook. Pages with <code>imp_prev30 &gt; 500</code> and a <code>decline_probability &gt; 0.6</code> are flagged for immediate editorial review.</p>
+
+                <p><strong>Top 5 At-Risk Pages (Action Engine Output):</strong></p>
+                <pre><code>content_hash_id,client_hash_id,imp_prev30,decline_probability,action,reason
+content_82403fd8bc2c2fb3,client_73cda7b4e4f265ea,11472.0,0.7808858013927528,Refresh Content / Review Target Queries,Losing CTR/Visibility
+content_926821c859dc9d57,client_73cda7b4e4f265ea,18125.0,0.7779496442462961,Refresh Content / Review Target Queries,Losing CTR/Visibility
+content_ed9c7fe5a778c796,client_73cda7b4e4f265ea,17945.0,0.7720894988821027,Refresh Content / Review Target Queries,Losing CTR/Visibility
+content_6026175ff0e5d224,client_62f4a7e64f5e0096,7017.0,0.7689196985107365,Refresh Content / Review Target Queries,Losing CTR/Visibility
+content_bb29c8273a47e3be,client_73cda7b4e4f265ea,3630.0,0.7660214501228153,Refresh Content / Review Target Queries,Falling ranks</code></pre>
+
+                <h2>Reproducibility</h2>
+                <p>The full codebase, EDA notebooks, and modeling scripts are available in the <code>work/</code> directory of this repository.</p>
+                <ul>
+                    <li>Model Notebook: <code>work/capstone.ipynb</code></li>
+                </ul>
+
+                <h2>Acknowledgments</h2>
+                <p>Built on the FlyRank ML Internship dataset.<br>Data Source: <a href="https://flyrank.ai">FlyRank</a></p>
+            </article>
+        </main>
+        
+        <footer>
+            <p>&copy; 2026 Shlok Noval. Built for Flyrank ML Internship.</p>
+        </footer>
+    </div>
+</body>
+</html>
